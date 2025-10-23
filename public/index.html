@@ -5,13 +5,16 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Wood Carving JAMstack Store"
-    />
+    <meta name="description" content="Wood Carving JAMstack Store" />
     <title>Wood Carving Shop</title>
   </head>
   <body>
+    <form name="order-submission" netlify hidden>
+      <input type="text" name="product" />
+      <input type="text" name="name" />
+      <input type="text" name="phone" />
+      <textarea name="details"></textarea>
+    </form>
     <div id="root"></div>
   </body>
 </html>
