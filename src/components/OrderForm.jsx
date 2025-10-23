@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
-// Важливо: У HTML-коді нижче використовується статична форма,
-// яку Netlify зможе розпізнати. React керуватиме станом полів.
-
-function OrderForm({ productName, onClose }) {
+// ❗ ВИПРАВЛЕНО: Додані productId та productImageUrl у props
+function OrderForm({ productName, productId, productImageUrl, onClose }) {
   const [formData, setFormData] = useState({
-    "form-name": "order-submission", // Поле, необхідне для Netlify
-    product: productName,
+    "form-name": "order-submission",
+    product_name: productName,
+    product_id: productId,
+    product_image_url: productImageUrl,
     name: "",
     phone: "",
     details: "",
-    // Поле Honeypot
     "bot-field": "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -22,7 +21,6 @@ function OrderForm({ productName, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 1. Кодування даних для надсилання у форматі, зрозумілому Netlify
     const encode = (data) => {
       return Object.keys(data)
         .map(
@@ -31,7 +29,6 @@ function OrderForm({ productName, onClose }) {
         .join("&");
     };
 
-    // 2. Надсилання POST-запиту
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,8 +36,6 @@ function OrderForm({ productName, onClose }) {
     })
       .then(() => {
         setSubmitted(true);
-        // За бажанням, можна закрити форму через кілька секунд
-        // setTimeout(onClose, 3000);
       })
       .catch((error) => alert(`Помилка надсилання форми: ${error.message}`));
   };
@@ -72,9 +67,13 @@ function OrderForm({ productName, onClose }) {
 
       {/* Приховані поля, критичні для Netlify */}
       <input type="hidden" name="form-name" value="order-submission" />
-      <input type="hidden" name="product" value={productName} />
+      <input type="hidden" name="product_name" value={productName} />
 
-      {/* 🛡️ HONEYPOT: Поле, яке боти заповнять, але користувачі ніколи не побачать */}
+      {/* ❗ Gриховані поля з детальною інформацією */}
+      <input type="hidden" name="product_id" value={productId} />
+      <input type="hidden" name="product_image_url" value={productImageUrl} />
+
+      {/* 🛡️ HONEYPOT: ... */}
       <p className="hidden">
         <label>
           Не заповнюйте це поле:{" "}

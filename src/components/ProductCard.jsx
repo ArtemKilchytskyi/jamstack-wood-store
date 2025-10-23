@@ -45,15 +45,15 @@ import React, { useState } from "react";
 import OrderForm from "./OrderForm"; // Імпортуємо нову форму
 
 function ProductCard({ product }) {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Новий стан для модального вікна
-
-  const {
-    "ID Товарy": id,
-    Назва: name,
-    Опис: description,
-    "Ціна(UAH)": priceUAH, // ❗ ВИПРАВЛЕНО
-    "URL фото": imageUrl,
-    Наявність: inStock,
+const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const { 
+    'ID Товарy': id, 
+    Назва: name, 
+    Опис: description, 
+    'Ціна(UAH)': priceUAH, 
+    'URL фото': imageUrl, 
+    Наявність: inStock 
   } = product;
 
   const available = parseInt(inStock) > 0;
@@ -101,12 +101,15 @@ function ProductCard({ product }) {
       </div>
 
       {/* Модальне вікно (рендериться, якщо isModalOpen === true) */}
-      {isModalOpen && (
+    {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <OrderForm
-              productName={name} // Передаємо назву товару у форму
-              onClose={handleCloseModal} // Передаємо функцію закриття
+            <OrderForm 
+              productName={name}
+              // ❗ ДОБАВЛЕНО: Передаем ID и URL для отчета
+              productId={id} 
+              productImageUrl={imageUrl}
+              onClose={handleCloseModal}
             />
           </div>
         </div>
